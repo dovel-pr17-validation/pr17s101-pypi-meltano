@@ -1,0 +1,26 @@
+.title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.titleListView {
+  font-size: 2rem;
+}
+
+.title :global(.changelog-title-link),
+.title :global(.changelog-title-link:hover) {
+  text-decoration: none !important;
+}
+
+:global([data-theme='dark']) .title :global(.changelog-title-link:hover) {
+  color: var(--meltano-link-color);
+}
+
+/**
+  Blog post title should be smaller on smaller devices
+**/
+@media (max-width: 576px) {
+  .title {
+    font-size: 2rem;
+  }
+}

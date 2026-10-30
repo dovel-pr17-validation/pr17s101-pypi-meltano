@@ -1,0 +1,210 @@
+/**
+ * Creating a sidebar enables you to:
+ - create an ordered group of docs
+ - render a sidebar for each doc of that group
+ - provide next/previous navigation
+
+ The sidebars can be generated from the filesystem, or explicitly defined here.
+
+ Create as many sidebars as you want.
+ */
+
+// @ts-check
+
+const gettingStartedCategory = require('./docs/getting-started/_category_.json');
+
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+const sidebars = {
+  connectorsSidebar: [
+    {
+      type: 'category',
+      label: 'Meltano Hub',
+      link: { type: 'doc', id: 'connectors/meltano-hub/index' },
+      collapsed: true,
+      items: [
+        { type: 'doc', id: 'connectors/meltano-hub/add-a-plugin', label: 'Listing on the Hub' },
+        { type: 'doc', id: 'connectors/meltano-hub/maintaining-plugins', label: 'Maintaining Taps & Targets' },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Connectors',
+      link: { type: 'doc', id: 'connectors/index' },
+      items: [
+        { type: 'doc', id: 'connectors/target-athena', label: 'Amazon Athena' },
+        { type: 'doc', id: 'connectors/tap-aptem', label: 'Aptem' },
+        { type: 'doc', id: 'connectors/tap-baidu', label: 'Baidu' },
+        { type: 'doc', id: 'connectors/tap-bing-ads', label: 'Bing Ads' },
+        { type: 'doc', id: 'connectors/target-chromadb', label: 'Chromadb' },
+        { type: 'doc', id: 'connectors/target-clickhouse', label: 'ClickHouse' },
+        { type: 'doc', id: 'connectors/tap-cloudwatch', label: 'CloudWatch' },
+        { type: 'doc', id: 'connectors/tap-dianomi', label: 'Dianomi' },
+        { type: 'doc', id: 'connectors/tap-gitlab', label: 'GitLab' },
+        { type: 'doc', id: 'connectors/tap-googleads', label: 'Google Ads' },
+        { type: 'doc', id: 'connectors/tap-google-analytics', label: 'Google Analytics' },
+        { type: 'doc', id: 'connectors/target-bigquery', label: 'Google BigQuery' },
+        { type: 'doc', id: 'connectors/tap-google-search-console', label: 'Google Search Console' },
+        { type: 'doc', id: 'connectors/tap-hubspot', label: 'HubSpot' },
+        { type: 'doc', id: 'connectors/tap-jira', label: 'Jira' },
+        { type: 'doc', id: 'connectors/tap-mongodb', label: 'MongoDB' },
+        { type: 'doc', id: 'connectors/target-motherduck', label: 'MotherDuck' },
+        { type: 'doc', id: 'connectors/tap-nextdoor', label: 'Nextdoor' },
+        { type: 'doc', id: 'connectors/tap-pinterest', label: 'Pinterest' },
+        { type: 'doc', id: 'connectors/tap-postgres', label: 'PostgreSQL' },
+        { type: 'doc', id: 'connectors/tap-rakutenadvertising', label: 'Rakuten Advertising' },
+        { type: 'doc', id: 'connectors/tap-snowflake', label: 'Snowflake' },
+        { type: 'doc', id: 'connectors/tap-solarvista', label: 'Solarvista Live' },
+        { type: 'doc', id: 'connectors/tap-spreadsheets-imap', label: 'Spreadsheets (IMAP)' },
+        { type: 'doc', id: 'connectors/tap-spreadsheets-outlook', label: 'Spreadsheets (Outlook)' },
+        { type: 'doc', id: 'connectors/tap-spreadsheets-sharepoint', label: 'Spreadsheets (SharePoint)' },
+        { type: 'doc', id: 'connectors/tap-surveymonkey', label: 'SurveyMonkey' },
+        { type: 'doc', id: 'connectors/tap-surveymonkey-privateapp', label: 'SurveyMonkey (Private App)' },
+        { type: 'doc', id: 'connectors/tap-weatherapi', label: 'Weather API' },
+        { type: 'doc', id: 'connectors/tap-zendesk', label: 'Zendesk' },
+      ],
+    },
+  ],
+  platformSidebar: [
+    {
+      type: 'category',
+      label: 'Getting Started',
+      customProps: gettingStartedCategory.customProps,
+      link: { type: 'doc', id: 'getting-started/which-meltano' },
+      items: [
+        {
+          type: 'doc',
+          id: 'getting-started/which-meltano',
+          label: 'Which Meltano is right for you?',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: require('./docs/meltano-cloud/_category_.json').label,
+      customProps: require('./docs/meltano-cloud/_category_.json').customProps,
+      link: { type: 'doc', id: 'meltano-cloud/index' },
+      collapsed: true,
+      items: [
+        { type: 'doc', id: 'meltano-cloud/cloud-overview' },
+        { type: 'doc', id: 'meltano-cloud/creating-workspace' },
+        { type: 'doc', id: 'meltano-cloud/managing-a-workspace' },
+        {
+          type: 'category',
+          label: 'Connect a store',
+          link: { type: 'doc', id: 'meltano-cloud/connect-a-store/index' },
+          items: [
+            { type: 'doc', id: 'meltano-cloud/connect-a-store/snowflake-guides' },
+            { type: 'doc', id: 'meltano-cloud/connect-a-store/microsoft-sql-server-guides' },
+            { type: 'doc', id: 'meltano-cloud/connect-a-store/clickhouse-store' },
+            { type: 'doc', id: 'meltano-cloud/connect-a-store/motherduck-store' },
+            { type: 'doc', id: 'meltano-cloud/connect-a-store/databricks-store' },
+            //{ type: 'doc', id: 'meltano-cloud/stores/bigquery' },
+          ],
+        },
+        { type: 'doc', id: 'meltano-cloud/ip-addresses' },
+        { type: 'doc', id: 'meltano-cloud/arrow-support' },
+        { type: 'doc', id: 'meltano-cloud/setup-development-environment' },
+        { type: 'doc', id: 'meltano-cloud/automate-actions' },
+        { type: 'doc', id: 'meltano-cloud/plugins' },
+        { type: 'doc', id: 'meltano-cloud/importing-data' },
+        { type: 'doc', id: 'meltano-cloud/transform-data' },
+        { type: 'doc', id: 'meltano-cloud/workspace-settings' },
+        { type: 'doc', id: 'meltano-cloud/pipeline-diagnosis' },
+        { type: 'doc', id: 'meltano-cloud/logging-monitoring' },
+        { type: 'doc', id: 'meltano-cloud/profile-security' },
+        { type: 'doc', id: 'meltano-cloud/invite' },
+        //{ type: 'doc', id: 'meltano-cloud/snowflake-guides' },
+      ],
+    },
+    {
+      type: 'category',
+      label: require('./docs/meltano-ai/_category_.json').label,
+      customProps: require('./docs/meltano-ai/_category_.json').customProps,
+      link: { type: 'doc', id: 'meltano-ai/index' },
+      collapsed: true,
+      items: [
+        { type: 'doc', id: 'meltano-ai/melty-mcp' },
+        { type: 'doc', id: 'meltano-ai/agent-melty' },
+        { type: 'doc', id: 'meltano-ai/ai-diagnostics' },
+      ],
+    },
+
+    {
+      type: 'category',
+      label: require('./docs/meltano-open/_category_.json').label,
+      customProps: require('./docs/meltano-open/_category_.json').customProps,
+      link: { type: 'doc', id: 'meltano-open/index' },
+      collapsed: true,
+      items: [
+        {
+          type: 'doc',
+          id: 'meltano-open/meltano-at-a-glance',
+          label: 'Overview',
+        },
+        {
+          type: 'doc',
+          id: 'meltano-open/installation',
+          label: 'Self-host install',
+        },
+        { type: 'doc', id: 'guide/installation-guide' },
+        { type: 'doc', id: 'guide/plugin-management' },
+        { type: 'doc', id: 'guide/configuration' },
+        { type: 'doc', id: 'guide/integration' },
+        { type: 'doc', id: 'guide/complete_tutorial' },
+        { type: 'doc', id: 'guide/mappers' },
+        { type: 'doc', id: 'guide/transformation' },
+        { type: 'doc', id: 'guide/orchestration' },
+        { type: 'doc', id: 'guide/analysis' },
+        { type: 'doc', id: 'guide/containerization' },
+        { type: 'doc', id: 'guide/production' },
+        { type: 'doc', id: 'guide/advanced-topics' },
+        { type: 'doc', id: 'guide/logging' },
+        { type: 'doc', id: 'guide/v2-migration' },
+        { type: 'doc', id: 'guide/v3-migration' },
+        { type: 'doc', id: 'guide/v4-migration' },
+        { type: 'doc', id: 'guide/debugging-custom-extractor' },
+        { type: 'doc', id: 'guide/custom-state-backend' },
+        { type: 'doc', id: 'guide/migrate-an-existing-dbt-project' },
+        { type: 'doc', id: 'guide/user-yaml-config' },
+        { type: 'doc', id: 'guide/troubleshooting' },
+      ],
+    },
+    {
+      type: 'category',
+      label: require('./docs/concepts/_category_.json').label,
+      customProps: require('./docs/concepts/_category_.json').customProps,
+      link: { type: 'doc', id: 'concepts/index' },
+      items: [{ type: 'autogenerated', dirName: 'concepts' }],
+    },
+    {
+      type: 'category',
+      label: require('./docs/reference/_category_.json').label,
+      customProps: require('./docs/reference/_category_.json').customProps,
+      link: { type: 'doc', id: 'reference/index' },
+      items: [{ type: 'autogenerated', dirName: 'reference' }],
+    },
+    {
+      type: 'category',
+      label: require('./docs/tutorials/_category_.json').label,
+      customProps: require('./docs/tutorials/_category_.json').customProps,
+      link: { type: 'doc', id: 'tutorials/index' },
+      items: [
+        { type: 'doc', id: 'tutorials/example-projects' },
+        { type: 'doc', id: 'tutorials/custom-extractor', label: 'How To - Create a Custom Extractor' },
+        { type: 'doc', id: 'tutorials/datahub', label: 'How To - DataHub with Meltano' },
+        { type: 'doc', id: 'tutorials/jupyter', label: 'How To - Jupyter with Meltano' },
+        { type: 'doc', id: 'tutorials/video-tutorials' },
+      ],
+    },
+    {
+      type: 'category',
+      label: require('./docs/contribute/_category_.json').label,
+      customProps: require('./docs/contribute/_category_.json').customProps,
+      link: { type: 'doc', id: 'contribute/index' },
+      items: [{ type: 'autogenerated', dirName: 'contribute' }],
+    },
+  ],
+};
+
+
+module.exports = sidebars;

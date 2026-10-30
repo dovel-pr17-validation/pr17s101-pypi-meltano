@@ -1,0 +1,126 @@
+name: Integration Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'v*'
+  merge_group:
+  workflow_dispatch:
+    inputs: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  FORCE_COLOR: "1"
+
+permissions: {}
+
+jobs:
+  files-changed:
+    name: Detect file changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      runtime: ${{ steps.changes.outputs.runtime }}
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+      id: changes
+      with:
+        filters: |
+          runtime:
+            - src/**
+            - integration/**
+            - noxfile.py
+            - pyproject.toml
+            - uv.lock
+            - .github/workflows/integration_tests.yml
+            - .github/workflows/resources/constraints.txt
+            - .python-version
+
+  validate:
+    name: Integration Tests (${{ matrix.integration_test }})
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.runtime == 'true' }}
+    strategy:
+      matrix:
+        include:
+        - { integration_test: "meltano-basics", needs_postgres: false}
+        - { integration_test: "meltano-run", needs_postgres: true}
+        - { integration_test: "meltano-objects", needs_postgres: false}
+        - { integration_test: "meltano-migrations", needs_postgres: false}
+        - { integration_test: "meltano-state-s3", needs_postgres: false}
+        - { integration_test: "meltano-state-local", needs_postgres: false}
+        - { integration_test: "meltano-config", needs_postgres: false}
+        - { integration_test: "meltano-annotations", needs_postgres: false}
+        - { integration_test: "meltano-manifest", needs_postgres: false}
+        - { integration_test: "meltano-run-merge-states", needs_postgres: false}
+        - { integration_test: "meltano-expand-envvars-in-array", needs_postgres: false}
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+
+    - name: Setup Python
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      id: setup-python
+      with:
+        python-version-file: .python-version
+
+    - name: Setup uv
+      uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+      with:
+        cache-suffix: integration-${{ matrix.integration_test }}
+
+    - name: Install Dependencies
+      env:
+        UV_PYTHON: ${{ steps.setup-python.outputs.python-path }}
+      run: |
+        uv sync --extra "s3"
+
+    - name: Start Postgres Container
+      if: always() && (matrix.needs_postgres == true)
+      run: >
+        docker run -d
+        -p "5432:5432"
+        -e "POSTGRES_PASSWORD=postgres"
+        -e "POSTGRES_DB=warehouse"
+        --name postgres
+        --health-cmd "pg_isready -d postgres -U postgres"
+        --health-interval 10s
+        --health-timeout 5s
+        --health-retries 5
+        postgres:14
+
+    - name: Run integration tests
+      env:
+        INTEGRATION_TEST_NAME: ${{ matrix.integration_test }}
+      run: |
+        uv run bash integration/validate.sh "$INTEGRATION_TEST_NAME"
+
+  ci:
+    name: CI required checks (integration tests)
+    if: always()
+    needs:
+    - files-changed
+    - validate
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+    - name: Decide whether the needed jobs succeeded or failed
+      uses: re-actors/alls-green@b5b5b37504aa4183270bd3d855c52a67f212be35 # v1.3.0
+      with:
+        jobs: ${{ toJSON(needs) }}
+        allowed-skips: validate
