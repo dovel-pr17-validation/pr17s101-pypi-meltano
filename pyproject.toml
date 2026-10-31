@@ -62,10 +62,10 @@ dependencies = [
 
 [project.optional-dependencies]
 azure = [
-  "azure-storage-blob>=12.24.0,<13",
+  "azure-storage-blob>=12.31.1,<13",
   "azure-common>=1.1.28,<2",
   "azure-core>=1.32.0,<2",
-  "azure-identity>=1.19.0,<2",
+  "azure-identity>=1.27.0,<2",
 ]
 containers = [
   "aiodocker>=0.24.0,<0.28",
